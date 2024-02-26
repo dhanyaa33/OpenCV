@@ -1,0 +1,17 @@
+import cv2
+import numpy as np
+file_path = r"C:\Users\devad\OneDrive\Pictures\Saved Pictures\1303828.jpg"
+image = cv2.imread(file_path)
+if image is not None:
+    cv2.imshow('Original Image', image)
+    cv2.waitKey(0)
+    scale_x = 1.5
+    scale_y = 2.0
+    transformation_matrix = np.array([[scale_x, 0, 0],
+                                       [0, scale_y, 0]], dtype=np.float32)
+    transformed_image = cv2.warpAffine(image, transformation_matrix, (image.shape[1], image.shape[0]))
+    cv2.imshow('Transformed Image', transformed_image)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+else:
+    print("Failed to read the image from the given file path.")
