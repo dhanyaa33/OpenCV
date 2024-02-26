@@ -1,0 +1,20 @@
+import cv2
+import numpy as np
+video_path = "C:\Users\devad\Downloads\Taylor_Swift_The_Eras_Tour_2023_English_Full_Movie_WEB-DL.mp4"
+video_capture = cv2.VideoCapture(video_path)
+if not video_capture.isOpened():
+    print("Error: Unable to open video.")
+    exit()
+original_points = np.float32([[316, 86], [700, 215], [28, 410], [495, 645]])
+output_points = np.float32([[0, 0], [500, 0], [0, 700], [500, 700]])
+perspective_matrix = cv2.getPerspectiveTransform(original_points, output_points)
+while True:
+    ret, frame = video_capture.read()
+    if not ret:
+        break
+    transformed_frame = cv2.warpPerspective(frame, perspective_matrix, (500, 700))
+    cv2.imshow('Perspective Transformed Frame', transformed_frame)
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+video_capture.release()
+cv2.destroyAllWindows()

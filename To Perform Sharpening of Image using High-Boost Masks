@@ -1,0 +1,19 @@
+import cv2
+import numpy as np
+file_path = r"C:\Users\devad\OneDrive\Pictures\Saved Pictures\1303828.jpg"
+image = cv2.imread(file_path)
+if image is not None:
+    gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    laplacian_kernel = np.array([[0, -1, 0],
+                                 [-1, 4, -1],
+                                 [0, -1, 0]])
+    high_pass_filtered_image = cv2.filter2D(gray_image, -1, laplacian_kernel)
+    scaling_factor = 1.5
+    sharpened_image = cv2.addWeighted(gray_image, 1, high_pass_filtered_image, scaling_factor, 0)
+    sharpened_image = cv2.convertScaleAbs(sharpened_image)
+    cv2.imshow('Original Image', image)
+    cv2.imshow('Sharpened Image (High-Boost)', sharpened_image)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+else:
+    print("Failed to read the image from the given file path.")
